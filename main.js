@@ -7,6 +7,7 @@ const userDataSchema = require('./schemas/user-data');
 const client = new Discord.Client();
 const tmi = require('tmi.js');
 
+//  DISCORD STUFF
 const loadCommands = require('./commands/load-commands');
 
 client.once('ready', async () => {
@@ -17,6 +18,7 @@ client.once('ready', async () => {
 
 client.login(process.env.TOKEN);
 
+//  TWITCH STUFF
 // Define configuration options
 const opts = {
   identity: {
@@ -36,7 +38,38 @@ tclient.on('message', onMessageHandler);
 tclient.on('connected', onConnectedHandler);
 
 // Connect to Twitch:
-tclient.connect();
+tclient.connect().catch(function(error){
+  fetch(process.env.DISCORD_WEBHOOK_INFO, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      embeds: [
+        {
+          "title": `Twitch Authentication Failed`,
+          "description": `Failed to authenticate to twitch api (OAuth expired?)`,
+          "color": 12845056,
+          "fields": [
+            {
+              "name": "info",
+              "value": error
+            }
+          ],
+          "thumbnail": {
+            "url": "https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png"
+          },
+        }
+      ]
+    })
+  }).then(res => {
+    if (res.status !== 204) {
+      throw 'Looks like there was a problem. Status Code: ' + response.status;
+    }
+  }).catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
+});
 
 // Called every time a message comes in
 async function onMessageHandler (target, context, msg, self) {
