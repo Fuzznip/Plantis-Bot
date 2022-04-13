@@ -14,10 +14,10 @@ module.exports = {
     let id = getUser(arguments[0]);
     const value = parseInt(arguments[1], 10);
 
-    if (value < 0) {
-      message.channel.send('You cannot set someone\'s shard count to be less than 0!');
-      return;
-    }
+    //if (value < 0) {
+    //  message.channel.send('You cannot set someone\'s shard count to be less than 0!');
+    //  return;
+    //}
 
     if (!id) { // Passed in osu name instead of mention
       try {
