@@ -43,7 +43,7 @@ module.exports = {
         });
 
         message.guild.members.fetch(id).then(member => {
-          message.channel.send(`${member.nickname ? member.nickname : member.user.username}, your account has been linked to ${osuAccount.username}. If you have shards on the spreadsheet and none when you type ${prefix}shards, please make a ticket in <#839359200144261140> requesting that your shard count gets updated to the spreadsheet value.`);
+          message.channel.send(`${member.nickname ? member.nickname : member.user.username}, your account has been linked to ${osuAccount.username}. If you have any concerns with your balance, please make a ticket in <#839359200144261140>.`);
         }).catch(console.error);
       } catch(e) {
         console.error(e);
